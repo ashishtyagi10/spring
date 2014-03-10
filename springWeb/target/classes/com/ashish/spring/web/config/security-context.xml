@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+
+	<security:authentication-manager>
+		<security:authentication-provider>
+			<security:user-service>
+				<security:user name="ashish" authorities="admin"
+					password="ashish" />
+				<security:user name="rahul" authorities="admin"
+					password="rahul" />
+			</security:user-service>
+		</security:authentication-provider>
+		<security:authentication-provider>
+			<security:jdbc-user-service data-source-ref="dataSource" />
+		</security:authentication-provider>
+	</security:authentication-manager>
+	<security:http use-expressions="true">
+		<security:intercept-url pattern="/createoffer" access="isAuthenticated()" />
+		<security:intercept-url pattern="/doCreateoffer" access="isAuthenticated()" />
+		<security:intercept-url pattern="offerCreated" access="isAuthenticated()" />
+		<security:intercept-url pattern="/" access="permitAll" />
+		<security:intercept-url pattern="/static/**" access="permitAll" />
+		<security:intercept-url pattern="/login" access="permitAll" />
+		<security:intercept-url pattern="/offers" access="permitAll" />
+		<security:intercept-url pattern="/newAccount" access="permitAll" />
+		<security:intercept-url pattern="/createAccount" access="permitAll" />
+		<security:intercept-url pattern="/accountCreated" access="permitAll" />
+		<security:intercept-url pattern="/logout" access="permitAll" />
+		<security:intercept-url pattern="/**" access="denyAll" />
+		<security:form-login login-page="/login" authentication-failure-url="/login?error=true"/>
+		<security:logout logout-success-url="/logout" />
+	</security:http>
+</beans>
